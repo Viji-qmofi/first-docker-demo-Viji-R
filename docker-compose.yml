@@ -1,0 +1,40 @@
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Milo@3005
+      MYSQL_DATABASE: demo_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pMilo@3005"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  app:
+    image: docker-demo:6.0
+    ports:
+      - 9090:9090
+    environment:
+      SERVER_PORT: 9090
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: demo_db
+      DB_USERNAME: root
+      DB_PASSWORD: "Milo@3005"
+    volumes:
+      - names-volume:/app
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  names-volume:
+  mysql-data:

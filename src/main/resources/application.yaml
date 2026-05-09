@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: DockerDemoApp
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:demo_db}?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Milo@3005
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  file:
+    path: ./names.txt
